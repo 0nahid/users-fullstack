@@ -22,7 +22,7 @@ client.connect((err) => {
 
   //   POST API
   app.post("/users", (req, res) => {
-    console.log("hitting post");
+    console.log("hitting post", req.body);
     res.send("POST request to the homepage");
   });
 
