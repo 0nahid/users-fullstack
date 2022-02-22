@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
+import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
+
 const Users = () => {
   const [users, setUsers] = useState([]);
 
@@ -8,23 +11,43 @@ const Users = () => {
       .then((res) => res.json())
       .then((data) => setUsers(data));
   }, []);
-
+  const handleDeleteUser = (id) => {
+    const proceed = window.confirm("Are you sure, you want to delete?");
+    if (proceed) {
+      fetch(`http://localhost:5000/users/${id}`, {
+        method: "DELETE",
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.deletedCount > 0) {
+            Swal.fire("Oops!", "User has been deleted", "warning");
+            const remainingUsers = users.filter((user) => user._id !== id);
+            setUsers(remainingUsers);
+          }
+        });
+    }
+  };
   return (
-    <div className="container mt-5">
-      {users.map((user) => (
-        <div key={user._id} className="mt-1 p-3 bg-dark text-white rounded">
-          <h1>Name: {user.name}</h1>
-          <p>Email: {user.email}</p>
-          <p>Phone: {user.phone}</p>
-          <div>
-            <Link to="/users/update">
-              {" "}
-              <button className="btn btn-primary mx-1">Update</button>
+    <div className="container">
+      {/* <h2>Users Available: {users.length} </h2> */}
+      <div>
+        {users.map((user) => (
+          <div key={user._id} className="mt-2 p-3 bg-dark text-white rounded">
+            <p>Name: {user.name}</p>
+            <p>Email: {user.email}</p>
+            <p>Phone: {user.phone}</p>
+            <Link to={`/users/update/${user._id}`}>
+              <Button variant="warning">Update</Button>
             </Link>
-            <button className="btn btn-danger mx-1">Delete</button>
+            <button
+              className="btn btn-danger"
+              onClick={() => handleDeleteUser(user._id)}
+            >
+              Delete
+            </button>
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   );
 };
