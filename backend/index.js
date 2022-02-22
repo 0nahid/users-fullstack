@@ -28,6 +28,10 @@ client.connect((err) => {
   app.get("/users", (req, res) => {
     collection.find().toArray((err, result) => res.json(result));
   });
+  // Delete API
+  app.delete("/users/:id", (req, res) => {
+    collection.deleteOne({ _id: req.params.id }, (err, result) => res.json(result));
+  })
   // perform actions on the collection object
   console.log("connected the database");
 
