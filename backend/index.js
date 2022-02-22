@@ -19,6 +19,13 @@ const client = new MongoClient(uri, {
 });
 client.connect((err) => {
   const collection = client.db("test").collection("devices");
+
+  //   POST API
+  app.post("/users", (req, res) => {
+    console.log("hitting post");
+    res.send("POST request to the homepage");
+  });
+
   // perform actions on the collection object
   console.log("connected the database");
 
