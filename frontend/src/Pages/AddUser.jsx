@@ -15,10 +15,7 @@ const AddUser = () => {
     fetch("http://localhost:5000/users", {
       method: "POST",
       headers: {
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
+        "content-type": "application/json",
       },
       body: JSON.stringify(newUser),
     })
@@ -27,18 +24,21 @@ const AddUser = () => {
         if (data.insertedId) {
           Swal.fire("Good job!", "User added to database!", "success");
           e.target.reset();
+        } else {
+          Swal.fire("Oops!", "Something went wrong!", "error");
         }
       });
     e.preventDefault();
   };
   return (
     <div className="container mt-5">
+      <h1>Add user here...</h1>
       <form onSubmit={handleAddUser}>
         <input
           type="text"
           name=""
-          className="form-control mt-2"
           ref={nameRef}
+          className="form-control my-2"
           placeholder="Enter your name"
           autoComplete="on"
           required
@@ -47,8 +47,8 @@ const AddUser = () => {
         <input
           type="email"
           name=""
-          className="form-control mt-2"
           ref={emailRef}
+          className="form-control my-2"
           placeholder="Enter your email"
           autoComplete="on"
           required
@@ -57,14 +57,14 @@ const AddUser = () => {
         <input
           type="number"
           name=""
-          className="form-control mt-2"
           ref={phoneRef}
+          className="form-control my-2"
           placeholder="Enter your number"
           required
           autoComplete="on"
           id=""
         />
-        <input className="btn btn-success mt-2" type="submit" value="Add" />
+        <input className="btn btn-success" type="submit" value="Add" />
       </form>
     </div>
   );
