@@ -18,13 +18,11 @@ const client = new MongoClient(uri, {
   serverApi: ServerApiVersion.v1,
 });
 client.connect((err) => {
-  const collection = client.db("test").collection("devices");
+  const collection = client.db("secret").collection("user");
 
-  //   POST API
+  // Post API
   app.post("/users", (req, res) => {
-    console.log("hitting post", req.body);
-    collection.insertOne(req.body).then((result) => console.log(result));
-    res.send("POST request to the homepage");
+    collection.insertOne(req.body, (err, result) => res.json(result));
   });
 
   // perform actions on the collection object
