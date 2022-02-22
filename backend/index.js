@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const { MongoClient, ServerApiVersion } = require("mongodb");
 const app = express();
+const { ObjectID } = require("bson");
 
 app.use(cors());
 app.use(express.json());
@@ -19,7 +20,17 @@ const client = new MongoClient(uri, {
 });
 client.connect((err) => {
   const collection = client.db("secret").collection("user");
-
+  // Get specific user
+  app.get("/users/:id", (req, res) => {
+    const id = req.params.id;
+    collection.findOne({ _id: new ObjectID(id) }, (err, result) => {
+      if (err) {
+        res.status(500).send(err);
+      } else {
+        res.send(result);
+      }
+    });
+  });
   // Post API
   app.post("/users", (req, res) => {
     collection.insertOne(req.body, (err, result) => res.json(result));
@@ -28,10 +39,12 @@ client.connect((err) => {
   app.get("/users", (req, res) => {
     collection.find().toArray((err, result) => res.json(result));
   });
-  // Delete API
   app.delete("/users/:id", (req, res) => {
-    collection.deleteOne({ _id: req.params.id }, (err, result) => res.json(result));
-  })
+    const id = req.params.id;
+    collection.deleteOne({ _id: ObjectID(id) }, (err, result) =>
+      res.send(result)
+    );
+  });
   // perform actions on the collection object
   console.log("connected the database");
 
