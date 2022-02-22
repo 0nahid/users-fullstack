@@ -23,14 +23,15 @@ client.connect((err) => {
   //   POST API
   app.post("/users", (req, res) => {
     console.log("hitting post", req.body);
+    collection.insertOne(req.body).then((result) => console.log(result));
     res.send("POST request to the homepage");
   });
 
   // perform actions on the collection object
   console.log("connected the database");
 
-  const user = { name: "Munna", age: 21, phone: "01827312314" };
-  collection.insertOne(user).then((res) => console.log(res));
+  // const user = { name: "Munna", age: 21, phone: "01827312314" };
+  // collection.insertOne(user).then((res) => console.log(res));
   //   client.close();
 });
 
