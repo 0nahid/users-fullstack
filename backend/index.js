@@ -24,7 +24,10 @@ client.connect((err) => {
   app.post("/users", (req, res) => {
     collection.insertOne(req.body, (err, result) => res.json(result));
   });
-
+  // Get API
+  app.get("/users", (req, res) => {
+    collection.find().toArray((err, result) => res.json(result));
+  });
   // perform actions on the collection object
   console.log("connected the database");
 
