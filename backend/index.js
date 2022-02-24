@@ -39,6 +39,7 @@ client.connect((err) => {
   app.get("/users", (req, res) => {
     collection.find().toArray((err, result) => res.json(result));
   });
+  // Delete API
   app.delete("/users/:id", (req, res) => {
     const id = req.params.id;
     collection.deleteOne({ _id: ObjectID(id) }, (err, result) =>
