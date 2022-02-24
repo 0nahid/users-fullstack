@@ -11,20 +11,29 @@ export default function Update() {
       setUser(res.data);
     });
   }, [id]);
-  const handleInfoChange = (e) => {
-    // setUser({ ...user, [e.target.name]: e.target.value });
-    console.log(e.target.value);
-
+  const nameChange = (e) => {
+    setUser({ ...user, name: e.target.value });
   };
+  const emailChange = (e) => {
+    setUser({ ...user, email: e.target.value });
+  };
+  const phoneChange = (e) => {
+    setUser({ ...user, phone: e.target.value });
+  };
+
   const handleUpdateUser = (e) => {
     e.preventDefault();
-    axios.put(`http://localhost:5000/users/${id}`, user).then((res) => {
-      if (res.data.n === 1) {
-        Swal.fire("Good job!", "User updated!", "success");
-      } else {
-        Swal.fire("Oops!", "Something went wrong!", "error");
-      }
-    });
+    const headers = {
+      "Content-Type": "application/json",
+    };
+    const body = JSON.stringify(user);
+    axios
+      .put(`http://localhost:5000/users/${id}`, user, { body }, { headers })
+      .then((res) => {
+        res.data.n === 1
+          ? Swal.fire("Oops!", "Something went wrong!", "error")
+          : Swal.fire("Good job!", "User updated!", "success");
+      });
   };
   return (
     <div className="container mt-5">
@@ -32,13 +41,11 @@ export default function Update() {
         Update of {user.name} && {user.email}
       </h1>
       <div className="bg-warning p-3 rounded ">
-        {/* <h1>{user.email}</h1>
-        <h1>{user.phone}</h1> */}
         <form onSubmit={handleUpdateUser}>
           <input
             type="text"
             name=""
-            onChange={handleInfoChange}
+            onChange={nameChange}
             value={user.name || ""}
             className="form-control mt-2"
             id=""
@@ -46,16 +53,16 @@ export default function Update() {
           <input
             type="email"
             name=""
+            onChange={emailChange}
             value={user.email || ""}
-            onChange={handleInfoChange}
             className="form-control mt-2"
             id=""
           />
           <input
             type="number"
             name=""
+            onChange={phoneChange}
             value={user.phone || ""}
-            onChange={handleInfoChange}
             className="form-control mt-2"
             id=""
           />

@@ -46,6 +46,27 @@ client.connect((err) => {
       res.send(result)
     );
   });
+  // Update API
+  app.put("/users/:id", (req, res) => {
+    const id = req.params.id;
+    console.log("updating user", id, req.body);
+
+    collection.updateOne(
+      { _id: ObjectID(id) },
+      {
+        $set: {
+          name: req.body.name,
+          email: req.body.email,
+          phone: req.body.phone,
+        },
+      },
+      { upsert: true },
+      (err, result) => {
+        res.json(result);
+        console.log(err);
+      }
+    );
+  });
   // perform actions on the collection object
   console.log("connected the database");
 
