@@ -49,7 +49,7 @@ client.connect((err) => {
   // Update API
   app.put("/users/:id", (req, res) => {
     const id = req.params.id;
-    console.log("updating user", id, req.body);
+    // console.log("updating user", id, req.body);
 
     collection.updateOne(
       { _id: ObjectID(id) },
@@ -63,12 +63,12 @@ client.connect((err) => {
       { upsert: true },
       (err, result) => {
         res.json(result);
-        console.log(err);
+        // console.log(err);
       }
     );
   });
   // perform actions on the collection object
-  console.log("connected the database");
+  // console.log("connected the database");
 
   // const user = { name: "Munna", age: 21, phone: "01827312314" };
   // collection.insertOne(user).then((res) => console.log(res));

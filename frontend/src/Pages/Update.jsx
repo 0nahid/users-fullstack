@@ -21,10 +21,10 @@ export default function Update() {
     setUser({ ...user, email: e.target.value });
   };
   const phoneChange = (e) => {
-    setUser({ ...user, phone: e.target.value });
+      setUser({ ...user, phone: e.target.value });
   };
 
-// handle update user info
+  // handle update user info
   const handleUpdateUser = (e) => {
     e.preventDefault();
     const headers = {
