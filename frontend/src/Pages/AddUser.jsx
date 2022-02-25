@@ -1,17 +1,18 @@
 import { useRef } from "react";
 import Swal from "sweetalert2";
 
+// create user with useRef
 const AddUser = () => {
   const nameRef = useRef();
   const emailRef = useRef();
   const phoneRef = useRef();
 
+  // handle add user info
   const handleAddUser = (e) => {
     const name = nameRef.current.value;
     const email = emailRef.current.value;
     const phone = phoneRef.current.value;
     const newUser = { name, email, phone };
-    console.log(newUser);
     fetch("http://localhost:5000/users", {
       method: "POST",
       headers: {
@@ -22,6 +23,7 @@ const AddUser = () => {
       .then((res) => res.json())
       .then((data) => {
         if (data.insertedId) {
+          // shows sweet alert
           Swal.fire("Good job!", "User added to database!", "success");
           e.target.reset();
         } else {

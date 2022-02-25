@@ -11,6 +11,8 @@ const Users = () => {
       .then((res) => res.json())
       .then((data) => setUsers(data));
   }, []);
+
+  // handle deleted users
   const handleDeleteUser = (id) => {
     const proceed = window.confirm("Are you sure, you want to delete?");
     if (proceed) {

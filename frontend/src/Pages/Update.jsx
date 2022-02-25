@@ -5,12 +5,15 @@ import Swal from "sweetalert2";
 export default function Update() {
   const [user, setUser] = useState({});
   const { id } = useParams();
-  // const [user, setUser] = useState({});
+
+  // fetch user data from database
   useEffect(() => {
     axios(`http://localhost:5000/users/${id}`).then((res) => {
       setUser(res.data);
     });
   }, [id]);
+
+  // handle info changes
   const nameChange = (e) => {
     setUser({ ...user, name: e.target.value });
   };
@@ -21,6 +24,7 @@ export default function Update() {
     setUser({ ...user, phone: e.target.value });
   };
 
+// handle update user info
   const handleUpdateUser = (e) => {
     e.preventDefault();
     const headers = {
@@ -37,13 +41,11 @@ export default function Update() {
   };
   return (
     <div className="container mt-5">
-      <h1>
-        Update of {user.name} && {user.email}
-      </h1>
       <div className="bg-warning p-3 rounded ">
         <form onSubmit={handleUpdateUser}>
           <input
             type="text"
+            required
             name=""
             onChange={nameChange}
             value={user.name || ""}
@@ -52,6 +54,7 @@ export default function Update() {
           />
           <input
             type="email"
+            required
             name=""
             onChange={emailChange}
             value={user.email || ""}
@@ -60,6 +63,7 @@ export default function Update() {
           />
           <input
             type="number"
+            required
             name=""
             onChange={phoneChange}
             value={user.phone || ""}
